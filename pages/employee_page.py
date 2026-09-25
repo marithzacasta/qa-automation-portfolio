@@ -12,10 +12,22 @@ class EmployeePage:
         self.employee_name.fill(employee_name)
         self.button_search.click()
 
-    def get_employee_result(self, employee_name):
-        return self.page.get_by_role("row").filter(
-            has_text=employee_name
-        )
-
     def reset_filter(self):
         self.button_reset.click()
+
+    def get_employee_row(self, employee_name):
+        return self.page.get_by_role("row").filter(has_text=employee_name)
+
+    def get_employee_result(self, employee_name):
+        return self.get_employee_row(employee_name)
+
+    def get_employee_id(self, employee_name):
+        row = self.get_employee_row(employee_name)
+
+        return row.get_by_role("cell").nth(1)
+
+    def get_employee_last_name(self, employee_name):
+        row = self.get_employee_row(employee_name)
+
+        return row.get_by_role("cell").nth(3)
+    
