@@ -2,3 +2,7 @@
 __pycache__/ 
 .pytest_cache/ 
 reports/ 
+
+# Resultados y reportes generados por Allure
+allure-results/
+allure-report/
