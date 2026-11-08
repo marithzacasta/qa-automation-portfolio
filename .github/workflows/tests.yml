@@ -1,0 +1,41 @@
+
+name: QA Automation - Playwright Tests # Nombre del workflow
+
+on: # Los eventos que lo ejecutan
+  push:
+    branches: [main]
+
+  pull_request:
+    branches: [main]
+
+jobs: # el trabajo que queremos realizar.
+  test:
+    runs-on: ubuntu-latest # la máquina donde se ejecuta ese trabajo.
+
+    steps:
+      - name: Descargar codigo del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Instalar Chromium y dependencias
+        run: playwright install --with-deps chromium
+
+      - name: Ejecutar pruebas con Pytest y Allure
+        run: pytest --browser chromium --alluredir=allure-results
+
+      - name: Guardar resultados de Allure
+        if: always() # Para ejecutar el paso de subida aunque haya fallado una prueba
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: allure-results/
+          if-no-files-found: warn

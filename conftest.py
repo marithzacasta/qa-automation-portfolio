@@ -52,3 +52,4 @@ def pytest_addoption(parser): # Hook de Pytest para registrar opciones personali
         choices=["chromium", "firefox", "webkit"],
         help="Selecciona el navegador para ejecutar las pruebas" # Describe la opción cuando consultamos la ayuda de Pytest.
     )
+
